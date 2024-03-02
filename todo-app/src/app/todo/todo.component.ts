@@ -1,10 +1,12 @@
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Store } from "@ngrx/store";
 
+import { AppStore } from "../app.state";
 import { TodoListItemComponent } from "./todo-list-item.component";
 import { TodoCountComponent } from "./todo-count.component";
 import { TodoInputComponent } from "./todo-input.component";
-import { TodoService } from "./todo.service";
+import { getTodos } from "./store/todo.selectors";
 
 export type Todo = {
   id: number;
@@ -25,6 +27,7 @@ export type Todo = {
   `
 })
 export class TodoComponent {
-  private readonly todoService = inject(TodoService);
-  todos$ = this.todoService.todos;
+  private readonly store = inject(Store<AppStore>);
+  //$ at the end means its a behavious subject(?)
+  todos$ = this.store.select(getTodos);
 }

@@ -1,7 +1,9 @@
 import { Component, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Store } from "@ngrx/store";
 
-import { TodoService } from "./todo.service";
+import { getTodosDone, getTodosNotDone } from "./store/todo.selectors";
+import { AppStore } from "../app.state";
 
 @Component({
   selector: "app-todo-count",
@@ -11,8 +13,8 @@ import { TodoService } from "./todo.service";
     <h3>Todos done: {{ doneCount$ | async }}</h3>`
 })
 export class TodoCountComponent {
-  private readonly todoService = inject(TodoService);
+  private readonly store = inject(Store<AppStore>);
 
-  todoCount$ = this.todoService.todoToBeDoneCount;
-  doneCount$ = this.todoService.todoFinishedCount;
+  doneCount$ = this.store.select(getTodosDone);
+  notDoneCount$ = this.store.select(getTodosNotDone);
 }

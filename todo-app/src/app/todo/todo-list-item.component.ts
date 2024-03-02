@@ -1,8 +1,10 @@
 import { Component, Input, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { Store } from "@ngrx/store";
 
 import { Todo } from "./todo.component";
-import { TodoService } from "./todo.service";
+import { AppStore } from "../app.state";
+import { removeTodo, toggleTodo } from "./store/todo.actions";
 
 @Component({
   selector: "app-todo-list-item",
@@ -17,14 +19,14 @@ import { TodoService } from "./todo.service";
     }`
 })
 export class TodoListItemComponent {
-  private readonly todoService = inject(TodoService);
+  private readonly store = inject(Store<AppStore>);
 
   @Input() todo?: Todo;
   onDeleteTodo(id: number) {
-    this.todoService.removeTodo(id);
+    this.store.dispatch(removeTodo({ id }));
   }
 
   onToggleTodo(id: number) {
-    this.todoService.toggleDone(id);
+    this.store.dispatch(toggleTodo({ id }));
   }
 }

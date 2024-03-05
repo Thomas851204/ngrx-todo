@@ -17,7 +17,7 @@ export const initialState: TodoState = {
 
 //create a reducer(s)
 
-//this reducer is to (....)?
+//this reducer is to create a new state based on the action it receives.
 const todoStore = createReducer(
   initialState,
   //addTodo: create a new state:

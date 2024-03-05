@@ -9,7 +9,7 @@ import { AppStore } from "../app.state";
   selector: "app-todo-count",
   standalone: true,
   imports: [CommonModule],
-  template: ` <h2>Todos to finish: {{ todoCount$ | async }}</h2>
+  template: ` <h2>Todos to finish: {{ doneCount$ | async }}</h2>
     <h3>Todos done: {{ doneCount$ | async }}</h3>`
 })
 export class TodoCountComponent {

@@ -17,12 +17,9 @@ import {
 } from "./todo.actions";
 
 // state type that has the variables(?) we want to have in the store
-//here to TodoState type has 1 property: an array of todos
-//A Todo is an type with 3 properties: id, name, done
-
-//Add properties to the TodoState type:isloading and error
+//here to TodoState type has 3 properties: an array of todos, isLoading boolean and error string
 export type TodoState = {
-  todos: Todo[];
+  todos: Todo[]; //A Todo is a type with 3 properties: id, name, done
   isLoading: boolean;
   error: string;
 };
@@ -37,7 +34,7 @@ export const initialState: TodoState = {
 
 //create a reducer(s)
 
-//this reducer is to create a new state based on the action it receives.
+//this reducer's role is to create a new state based on the action it receives.
 
 const todoStore = createReducer(
   initialState,
@@ -51,7 +48,7 @@ const todoStore = createReducer(
   on(getTodoError, (state, { message }) => ({ ...state, error: message, isLoading: false })),
 
   //addTodo
-  on(addTodoStarted, (state) => ({ ...state, isLoading: true })), //change state with a new state object, where the isloaindg prop is true
+  on(addTodoStarted, (state) => ({ ...state, isLoading: true })), //add a new state object, where the isloading prop is true(?)
   on(addTodoSuccess, (state, { id, name, done }) => ({
     ...state,
     todos: [...state.todos, { id, name, done }],

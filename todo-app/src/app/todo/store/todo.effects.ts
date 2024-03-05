@@ -31,9 +31,9 @@ const handleAddTodoSideEffects$ = createEffect(
     return action$.pipe(
       //ofType filters the dispatched actions by type. If the dispatched action is addTodoStarted, then execute the next code block
       ofType(addTodoStarted),
-      //exhaustMap maps the  action (which one?) to an observable(?)...
+      //exhaustMap maps the addTodoStarted action to an observable(?)...
       exhaustMap((todo: AddTodoRequest) =>
-        //adds the AddTodoRequest object to the todoService's addTodo method
+        //adds the AddTodoRequest object to the todoService's addTodo method (this is the method that invokes the HTTP request in the service)
         todoService.addTodo(todo).pipe(
           //we have two possible outcomes: success and error, here we handle both scenarios
           map((todo) => addTodoSuccess(todo)),

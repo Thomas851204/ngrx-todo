@@ -13,7 +13,7 @@ import {
 
 //Service methods no longer needed as the store handles these operations.
 //Deleted all methods, and added new ones that communicate with the backend.
-//These new methods are not connected to the store or any of its components. To do that
+//These new methods by themselves are not connected to the store or any of its components here. To do that
 // we need to create effects and connect them to the actions.
 
 @Injectable({ providedIn: "root" })

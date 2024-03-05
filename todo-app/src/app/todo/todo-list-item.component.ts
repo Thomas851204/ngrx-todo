@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 
 import { Todo } from "./todo.component";
 import { AppStore } from "../app.state";
-import { removeTodo, toggleTodo } from "./store/todo.actions";
+import { removeTodoStarted, toggleTodoStarted } from "./store/todo.actions";
 
 @Component({
   selector: "app-todo-list-item",
@@ -12,7 +12,7 @@ import { removeTodo, toggleTodo } from "./store/todo.actions";
   imports: [CommonModule],
   template: ` @if (todo) {
     <div>
-      <input type="checkbox" [checked]="todo.done" (change)="onToggleTodo(todo.id)" />
+      <input type="checkbox" [checked]="todo.done" (change)="onToggleTodo(todo.id, todo.done)" />
       {{ todo.name }}
       <button (click)="onDeleteTodo(todo.id)">Delete</button>
     </div>
@@ -23,10 +23,10 @@ export class TodoListItemComponent {
 
   @Input() todo?: Todo;
   onDeleteTodo(id: number) {
-    this.store.dispatch(removeTodo({ id }));
+    this.store.dispatch(removeTodoStarted({ id }));
   }
 
-  onToggleTodo(id: number) {
-    this.store.dispatch(toggleTodo({ id }));
+  onToggleTodo(id: number, done: boolean) {
+    this.store.dispatch(toggleTodoStarted({ id, done }));
   }
 }

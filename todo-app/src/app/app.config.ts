@@ -3,6 +3,9 @@ import { provideStore } from "@ngrx/store";
 import { provideStoreDevtools } from "@ngrx/store-devtools";
 
 import { todoStore } from "./todo/store/todo.reducers";
+import { provideEffects } from "@ngrx/effects";
+import { todoEffects } from "./todo/store/todo.effects";
+import { HttpClient, provideHttpClient } from "@angular/common/http";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +22,8 @@ export const appConfig: ApplicationConfig = {
         }
       }
     ),
-    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() })
+    provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideEffects(todoEffects),
+    provideHttpClient()
   ]
 };

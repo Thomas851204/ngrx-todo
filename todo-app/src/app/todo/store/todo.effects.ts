@@ -46,7 +46,7 @@ const handleAddTodoSideEffects$ = createEffect(
       )
     );
   },
-  //second argument:
+  //second argument: this effect is a functional effect. It just means that in this effect we used dependency injection instead of declaring properties (action$ and todoService are both injected and not declared)
   { functional: true }
 );
 

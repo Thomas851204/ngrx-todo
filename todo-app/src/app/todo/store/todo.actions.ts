@@ -4,7 +4,7 @@ import { Todo } from "../todo.component";
 
 //an action is needed to reach a reducer
 //specify/export types that we want to add to the actions as props
-//as a parameter of the createAction method, add in braces what component it belongs to, what action it invokes and a prop(if needed)
+//as a parameter of the createAction method, add in braces what component it belongs to, what action it invokes and a prop(if needed). The prop is the data the action will carry as a payload (like the body of a HTTP request)
 
 //get stored data from backend on load
 export type GetTodoResponse = { todos: Todo[] };

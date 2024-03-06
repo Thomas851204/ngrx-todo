@@ -20,8 +20,8 @@ export class TodoInputComponent {
     if (!this.todoName.trim()) {
       return;
     }
-    //here we will not select, we will dispatch, as we are putting in a new item
-    //the onAddTodo will invoke the addTodoStarted action (dispatched to reducer)
+    //here we will not select, we will dispatch, as we are putting in a new item -> we are updating the state
+    //the onAddTodo will invoke the addTodoStarted action (dispatched to reducer, intercepted by the effects before it reaches the reducer)
     this.store.dispatch(addTodoStarted({ name: this.todoName, done: false }));
     this.todoName = "";
   }

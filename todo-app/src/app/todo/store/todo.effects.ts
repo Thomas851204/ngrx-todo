@@ -27,16 +27,18 @@ import {
 //first argument: inject Actions and the todoService, return with an action "stream/observable"
 const handleAddTodoSideEffects$ = createEffect(
   (action$ = inject(Actions), todoService = inject(TodoService)) => {
-    //we start listening to the actions "stream"
+    //we start listening to the actions "stream", using pipe to chain together operations
     return action$.pipe(
       //ofType filters the dispatched actions by type. If the dispatched action is addTodoStarted, then execute the next code block
       ofType(addTodoStarted),
-      //exhaustMap maps the addTodoStarted action to an observable(?)...
+      //exhaustMap maps the addTodoStarted action's payload (prop) to an observable. In simpler terms, if an addTodoStarted action is dispatched, it will carry a payload(prop) object that has an AddTodoRequest type, and we say here that we will call this payload "todo"
       exhaustMap((todo: AddTodoRequest) =>
-        //adds the AddTodoRequest object to the todoService's addTodo method (this is the method that invokes the HTTP request in the service)
+        //calls the todoService's addTodo method with the the todo:AddTodoRequest object (this is the method that invokes the HTTP request in the service)
         todoService.addTodo(todo).pipe(
           //we have two possible outcomes: success and error, here we handle both scenarios
+          //the map method here dispatches the addTodoSuccess action to the reducer with the todo object. The todo here is the object we got in the http response (which should be the same as the todo object we called the addTodo method with, but now it received an id in the backend).
           map((todo) => addTodoSuccess(todo)),
+          //the catcherror reads out the message from the http error (if there is one), and dispatches the addTodoError action to the reducer with the message as the action's payload (prop)
           catchError(({ message }: HttpErrorResponse) => {
             return of(addTodoError({ message }));
           })
@@ -44,6 +46,7 @@ const handleAddTodoSideEffects$ = createEffect(
       )
     );
   },
+  //second argument:
   { functional: true }
 );
 

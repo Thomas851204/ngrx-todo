@@ -73,7 +73,7 @@ const handleRemoveTodoSideEffects$ = createEffect(
       ofType(removeTodoStarted),
       exhaustMap(({ id }: RemoveTodoRequest) =>
         todoService.removeTodo(id).pipe(
-          map((id) => removeTodoSuccess(id)),
+          map(() => removeTodoSuccess({id})),
           catchError(({ message }: HttpErrorResponse) => {
             return of(removeTodoError({ message }));
           })

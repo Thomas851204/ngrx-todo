@@ -60,7 +60,9 @@ const todoStore = createReducer(
   on(removeTodoStarted, (state) => ({ ...state, isLoading: true })),
   on(removeTodoSuccess, (state, { id }) => ({
     ...state,
-    todos: state.todos.filter((todo) => id !== todo.id),
+    todos: state.todos.filter((todo) => {
+      return
+      id !== todo.id}),
     isLoading: false
   })),
   on(removeTodoError, (state, { message }) => ({ ...state, error: message, isLoading: false })),

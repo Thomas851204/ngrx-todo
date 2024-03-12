@@ -18,10 +18,6 @@ import {
 
 @Injectable({ providedIn: "root" })
 export class TodoService {
-  todos: BehaviorSubject<Todo[]> = new BehaviorSubject<Todo[]>([]);
-
-  todoToBeDoneCount: BehaviorSubject<number> = new BehaviorSubject(0);
-  todoFinishedCount: BehaviorSubject<number> = new BehaviorSubject(0);
   private baseUrl = "http://localhost:3000/todos";
   private http = inject(HttpClient);
 

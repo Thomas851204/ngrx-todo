@@ -17,12 +17,17 @@
   // "forwardPorts": [],
 
   // Use 'postCreateCommand' to run commands after the container is created.
-  "postCreateCommand": "cd backend && npm install && cd ../frontend && npm install",
+  "postCreateCommand": "cd todo-api && npm install && cd ../todo-app && npm install",
 
   // Configure tool-specific properties.
   "customizations": {
     "vscode": {
-      "extensions": ["esbenp.prettier-vscode", "angular.ng-template"]
+      "extensions": [
+        "humao.rest-client",
+        "esbenp.prettier-vscode",
+        "angular.ng-template",
+        "ms-vscode.live-server"
+      ]
     }
   }
 

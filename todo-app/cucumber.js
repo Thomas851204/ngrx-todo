@@ -6,6 +6,6 @@ let common = [
   "--format node_modules/cucumber-pretty" // Load custom formatter
 ].join(" ");
 
-module.exports = {
-  default: common
-};
+// module.exports = {
+//   default: common
+// };

@@ -1,6 +1,6 @@
-const { Given, Then, When } = require("@cucumber/cucumber");
-const assert = require("assert");
-const { TodoInputComponent } = require("../../src/app/todo/todo-input.component");
+import { Given, Then, When } from "@cucumber/cucumber";
+import assert from "assert";
+import { TodoInputComponent } from "../../src/app/todo/todo-input.component";
 
 Given("I want to create a new task", function () {
   // Write code here that turns the phrase above into concrete actions

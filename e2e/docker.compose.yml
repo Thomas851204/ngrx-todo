@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  todo-api:
+    build: ../todo-api
+    ports:
+      - "3000:3000"
+  todo-app:
+    build: ../todo-app
+    ports:
+      - "4200:80"

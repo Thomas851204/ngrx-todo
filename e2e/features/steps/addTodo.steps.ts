@@ -32,7 +32,7 @@ Then(
   async function (taskText: string) {
     const lastTodo = page.getByTestId("todo-checkbox").last();
 
-    await expect(lastTodo).toBeVisible({ timeout: 30000 });
-    await expect(lastTodo).toContainText(taskText, { timeout: 30000 });
+    await expect(lastTodo).toBeVisible();
+    await expect(lastTodo).toContainText(taskText);
   }
 );

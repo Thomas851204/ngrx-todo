@@ -1,20 +1,14 @@
 import { Injectable, inject } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
-
-import { Todo } from "./todo.component";
 import { HttpClient } from "@angular/common/http";
+
 import {
   AddTodoRequest,
   AddTodoResponse,
-  GetTodoResponse,
-  RemoveTodoResponse,
+  RemoveTodoRequest,
+  ToggleTodoRequest,
   ToggleTodoResponse
 } from "./store/todo.actions";
-
-//Service methods no longer needed as the store handles these operations.
-//Deleted all methods, and added new ones that communicate with the backend.
-//These new methods by themselves are not connected to the store or any of its components here. To do that
-// we need to create effects and connect them to the actions.
+import { Todo } from "./todo.component";
 
 @Injectable({ providedIn: "root" })
 export class TodoService {
@@ -29,11 +23,11 @@ export class TodoService {
     return this.http.post<AddTodoResponse>(this.baseUrl, todo);
   }
 
-  removeTodo(id: number) {
-    return this.http.delete<RemoveTodoResponse>(`${this.baseUrl}/${id}`);
+  removeTodo(req: RemoveTodoRequest) {
+    return this.http.delete<void>(`${this.baseUrl}/${req.id}`);
   }
 
-  toggleTodo(id: number, done: boolean) {
-    return this.http.put<ToggleTodoResponse>(`${this.baseUrl}/${id}`, { done });
+  toggleDone(todo: ToggleTodoRequest) {
+    return this.http.put<ToggleTodoResponse>(`${this.baseUrl}/${todo.id}`, { done: todo.done });
   }
 }

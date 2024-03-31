@@ -1,80 +1,70 @@
-//role of reducer: handle the logic based on the action it receives.
-import { Todo } from "../todo.component";
 import { createReducer, on } from "@ngrx/store";
+import { Todo } from "../todo.component";
 import {
+  loadTodosStarted,
+  loadTodosError,
+  loadTodosSuccess,
+  addTodoError,
   addTodoStarted,
   addTodoSuccess,
-  addTodoError,
+  removeTodoError,
   removeTodoStarted,
   removeTodoSuccess,
-  removeTodoError,
-  toggleTodoStarted,
-  toggleTodoSuccess,
   toggleTodoError,
-  getTodoStarted,
-  getTodoSuccess,
-  getTodoError
+  toggleTodoStarted,
+  toggleTodoSuccess
 } from "./todo.actions";
 
-// state type that has the variables(?) we want to have in the store
-//here to TodoState type has 3 properties: an array of todos, isLoading boolean and error string
 export type TodoState = {
-  todos: Todo[]; //A Todo is a type with 3 properties: id, name, done
+  todos: Todo[];
   isLoading: boolean;
   error: string;
 };
 
-//the initial state of our app: it has an empty array (no need for specifying the todos, it will automatically become Todo)
-//isLoading is false by default, and error is empty
-export const initialState: TodoState = {
+const initialState: TodoState = {
   todos: [],
-  isLoading: false,
-  error: ""
+  error: "",
+  isLoading: false
 };
-
-//create a reducer(s)
-
-//this reducer's role is to create a new state based on the action it receives.
 
 const todoStore = createReducer(
   initialState,
-  //getTodos
-  on(getTodoStarted, (state) => ({ ...state, isLoading: true })),
-  on(getTodoSuccess, (state, { todos }) => ({
-    ...state,
-    todos,
-    isLoading: false
-  })),
-  on(getTodoError, (state, { message }) => ({ ...state, error: message, isLoading: false })),
 
-  //addTodo
-  on(addTodoStarted, (state) => ({ ...state, isLoading: true })), //add a new state object, where the isloading prop is true(?)
+  // loadTodos
+  on(loadTodosStarted, (state) => ({ ...state, isLoading: true })),
+  on(loadTodosSuccess, (state, { todos }) => ({
+    ...state,
+    isLoading: false,
+    todos
+  })),
+  on(loadTodosError, (state, { message }) => ({ ...state, isLoading: false, error: message })),
+
+  // addTodo
+  on(addTodoStarted, (state) => ({ ...state, isLoading: true })),
   on(addTodoSuccess, (state, { id, name, done }) => ({
     ...state,
-    todos: [...state.todos, { id, name, done }],
-    isLoading: false
+    isLoading: false,
+    todos: [...state.todos, { id, name, done }]
   })),
-  on(addTodoError, (state, { message }) => ({ ...state, error: message, isLoading: false })),
+  on(addTodoError, (state, { message }) => ({ ...state, isLoading: false, error: message })),
 
-  //removeTodo
+  // removeTodo
   on(removeTodoStarted, (state) => ({ ...state, isLoading: true })),
   on(removeTodoSuccess, (state, { id }) => ({
     ...state,
-    todos: state.todos.filter((todo) => {
-      return
-      id !== todo.id}),
-    isLoading: false
+    isLoading: false,
+    todos: state.todos.filter((todo) => todo.id !== id)
   })),
-  on(removeTodoError, (state, { message }) => ({ ...state, error: message, isLoading: false })),
+  on(removeTodoError, (state, { message }) => ({ ...state, isLoading: false, error: message })),
 
-  //toggleTodo: toggle whether the todo on the list is done or not.
+  // toggleTodo
   on(toggleTodoStarted, (state) => ({ ...state, isLoading: true })),
-  on(toggleTodoSuccess, (state, { id, done }) => ({
+  on(toggleTodoSuccess, (state, { id, name, done }) => ({
     ...state,
-    todos: state.todos.map((todo) => (todo.id === id ? { ...todo, done } : todo)),
-    isLoading: false
+    isLoading: false,
+    todos: state.todos.map((todo) => (todo.id === id ? { id, name, done } : todo))
   })),
-  on(toggleTodoError, (state, { message }) => ({ ...state, error: message, isLoading: false }))
+  on(toggleTodoError, (state, { message }) => ({ ...state, isLoading: false, error: message }))
 );
 
 export { todoStore };

@@ -1,29 +1,32 @@
 import { ApplicationConfig, isDevMode } from "@angular/core";
+import { provideRouter } from "@angular/router";
+
+import { routes } from "./app";
 import { provideStore } from "@ngrx/store";
 import { provideStoreDevtools } from "@ngrx/store-devtools";
-
 import { todoStore } from "./todo/store/todo.reducers";
 import { provideEffects } from "@ngrx/effects";
-import { todoEffects } from "./todo/store/todo.effects";
-import { HttpClient, provideHttpClient } from "@angular/common/http";
+import {
+  handleAddTodoSideEffects$,
+  handleDeleteTodoSideEffects$,
+  handleGetTodosSideEffects$,
+  handleToggleTodoSideEffects$
+} from "./todo/store/todo.effects";
+import { provideHttpClient } from "@angular/common/http";
+import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideStore(
-      {
-        //added the todoStore
-        todo: todoStore
-      },
-      {
-        runtimeChecks: {
-          //State and actions can not be overwritten directly
-          strictStateImmutability: true,
-          strictActionImmutability: true
-        }
-      }
-    ),
+    provideRouter(routes),
+    provideStore({ todo: todoStore }),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideEffects(todoEffects),
-    provideHttpClient()
+    provideEffects({
+      handleAddTodoSideEffects$,
+      handleGetTodosSideEffects$,
+      handleDeleteTodoSideEffects$,
+      handleToggleTodoSideEffects$
+    }),
+    provideHttpClient(),
+    provideAnimationsAsync()
   ]
 };

@@ -1,0 +1,13 @@
+Feature: User login
+Scenario Outline: Login with valid <username> and <password>
+Given I am on the login page
+When I enter my <username>
+And I enter my <password>
+Then I click the "Login" button
+And I should be redirected to the dashboard
+Examples:
+| username | password |
+| user1 | password1 |
+| user2 | password2 |
+| user3 | password3 |
+

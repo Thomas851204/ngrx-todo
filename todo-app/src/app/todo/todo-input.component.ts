@@ -1,28 +1,37 @@
 import { Component, inject } from "@angular/core";
-import { FormsModule } from "@angular/forms";
 import { Store } from "@ngrx/store";
+import { FormsModule } from "@angular/forms";
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
+import { MatInputModule } from "@angular/material/input";
+import { MatFormFieldModule } from "@angular/material/form-field";
 
+import { addTodoStarted } from "../todo/store/todo.actions";
 import { AppStore } from "../app.state";
-import { addTodo } from "./store/todo.actions";
 
 @Component({
   selector: "app-todo-input",
   standalone: true,
-  imports: [FormsModule],
-  template: `<input type="text" [(ngModel)]="todoName" />
-    <button [disabled]="!todoName.trim().length" (click)="onAddTodo()">Add</button>`
+  imports: [FormsModule, MatInputModule, MatIconModule, MatButtonModule, MatFormFieldModule],
+  template: ` <div style="display: flex; width: 100%">
+    <mat-form-field style="flex: 1">
+      <mat-label>Add new todo</mat-label>
+      <input data-testid="todo-input" matInput type="text" [(ngModel)]="todoName" />
+    </mat-form-field>
+    <button data-testid="todo-add-button" mat-icon-button [disabled]="!todoName.trim().length" (click)="onAddTodo()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>`
 })
 export class TodoInputComponent {
-  private readonly store = inject(Store<AppStore>);
+  private store = inject(Store<AppStore>);
   todoName = "";
 
   onAddTodo() {
     if (!this.todoName.trim()) {
       return;
     }
-    //for now we will assign a random number as an id to a new todo item
-    //here we will not select, we will dispatch, as we are putting in a new item
-    this.store.dispatch(addTodo({ id: Math.floor(Math.random() * 10000), name: this.todoName, done: false }));
+    this.store.dispatch(addTodoStarted({ name: this.todoName.trim(), done: false }));
     this.todoName = "";
   }
 }

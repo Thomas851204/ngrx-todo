@@ -13,11 +13,7 @@ class Todo {
   }
 }
 
-const todos: Todo[] = [
-  new Todo("Eat", true),
-  new Todo("Drink", false),
-  new Todo("Sleep", false),
-];
+const todos: Todo[] = [];
 
 const app = express();
 const port = 3000;
